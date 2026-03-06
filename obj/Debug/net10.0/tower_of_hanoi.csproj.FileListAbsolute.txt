@@ -1,0 +1,14 @@
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\bin\Debug\net10.0\tower_of_hanoi.exe
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\bin\Debug\net10.0\tower_of_hanoi.deps.json
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\bin\Debug\net10.0\tower_of_hanoi.runtimeconfig.json
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\bin\Debug\net10.0\tower_of_hanoi.dll
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\bin\Debug\net10.0\tower_of_hanoi.pdb
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.AssemblyInfoInputs.cache
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.AssemblyInfo.cs
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.csproj.CoreCompileInputs.cache
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.dll
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\refint\tower_of_hanoi.dll
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.pdb
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.genruntimeconfig.cache
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\ref\tower_of_hanoi.dll
