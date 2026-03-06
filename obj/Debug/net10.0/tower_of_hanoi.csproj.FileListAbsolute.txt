@@ -12,3 +12,4 @@ C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0
 C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.pdb
 C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.genruntimeconfig.cache
 C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\ref\tower_of_hanoi.dll
+C:\Users\ksawe\OneDrive\Dokumenty\Uni\SS2026\CD\tower_of_hanoi\obj\Debug\net10.0\tower_of_hanoi.sourcelink.json

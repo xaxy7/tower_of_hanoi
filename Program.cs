@@ -164,17 +164,51 @@ class Program
         {
  
             Console.Write("|");
-            GenerateTree(numDisk, i, ref a, arrayA.Length, arrayA );
+            GenerateTreeWithNumbers(numDisk, i, ref a, arrayA.Length, arrayA );
             Console.Write("|");
-            GenerateTree(numDisk, i, ref b, arrayB.Length, arrayB );
+            GenerateTreeWithNumbers(numDisk, i, ref b, arrayB.Length, arrayB );
             Console.Write("|");
-            GenerateTree(numDisk, i, ref c, arrayC.Length, arrayC );
+            GenerateTreeWithNumbers(numDisk, i, ref c, arrayC.Length, arrayC );
             Console.Write("|");
             Console.WriteLine();
             // Console.Write($"a: {a} b: {b} c: {c}");
         }
         // Console.WriteLine(" ");
 
+    }
+    static void GenerateTreeWithNumbers(int numDisk, int i, ref int x, int LengthX, int[] arrayX)
+    {
+        int totalLength = numDisk * 2 +3;
+        // Console.Write(totalLength);
+
+        if(numDisk - LengthX <= i && LengthX != 0)
+        {
+            for(int j = 0; j < (totalLength - (arrayX[x] * 2 +1))/2; j++)
+            {
+                Console.Write(" ");
+            }
+            for(int j = 0; j < (arrayX[x] * 2 +1)/2; j++)
+            {
+                Console.Write("*");
+            }
+            Console.Write(arrayX[x]);
+            for(int j = 0; j < (arrayX[x] * 2 + 1) / 2; j++)
+            {
+                Console.Write("*");
+            }
+            for(int j = (totalLength - (arrayX[x] * 2 +1))/2 + (arrayX[x]*2 +1); j < totalLength ; j++)
+            {
+                Console.Write($" ");
+            }
+            x++;
+        }
+        else
+        {
+            for(int j = 0; j < totalLength; j++)
+            {
+                Console.Write(" ");
+            }
+        }
     }
     static void GenerateTree(int numDisk, int i, ref int x, int LengthX, int[] arrayX)
     {
