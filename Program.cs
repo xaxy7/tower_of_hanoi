@@ -1,4 +1,4 @@
-﻿using System.Formats.Asn1;
+using System.Formats.Asn1;
 using System.Globalization;
 
 namespace tower_of_hanoi;
@@ -7,18 +7,37 @@ class Program
 {
     static int[] tower = [0,1,2];
     static List<Stack<int>> stacks = [new Stack<int> (), new Stack<int> (), new Stack<int> ()];
+    static int moveLogStartRow = 0;
+    static int moveLogHeight = 8;
+    static int currentLogLine = 0;
+    static readonly object consoleLock = new();
     static void Main(string[] args)
     {
+        int a = 0; int b = 1; int c = 2;
 
-        HanoiSolverIterative(Convert.ToInt32(args[0]));
-        
-        // for(int i = Convert.ToInt32(args[0]); i > 0; i--)
-        // {
-        //     stacks[0].Push(i);
-        //     // stacks[1].Push(0);
-        //     // stacks[2].Push(0);
-        // }
-        // GenerateWholeGame(5);
+        var cmd = Environment.GetCommandLineArgs();
+        int numDisk = Convert.ToInt32(args[1]);
+
+        moveLogStartRow = numDisk + 1;
+        moveLogHeight = 8; // or any small fixed value
+        currentLogLine = 0;
+
+        Console.CursorVisible = false;
+        Console.Clear();
+        if (cmd.Contains("-Recursive"))
+        {
+            for(int i = Convert.ToInt32(args[1]); i > 0; i--)
+                {
+                    stacks[0].Push(i);
+                }
+                HanoiSolverRecursive(Convert.ToInt32(args[1]),a,c,b,Convert.ToInt32(args[1]) );
+                
+        }else if(cmd.Contains("-Iterative")){
+                HanoiSolverIterative(Convert.ToInt32(args[1]));
+        }
+
+        Console.CursorVisible = true;
+
     }
 
     static string HanoiSolverIterative(int numDisk)
@@ -42,53 +61,69 @@ class Program
             stacks[0].Push(i);
 
         }
+        RenderFrame(numDisk);
         for(double i = 1; i <= movesNumber; i++)
         {
-            GenerateWholeGame(numDisk);
+            string moveText = "";
             if(i % 3 == 1)
             {
 
                 if (isOdd)
-                    answer += DiskMoverIterative(tower[0], tower[2]);
+                    moveText += DiskMover(tower[0], tower[2]);
                 else 
-                    answer += DiskMoverIterative(tower[0], tower[1]);
+                    moveText += DiskMover(tower[0], tower[1]);
 
             }
             else if(i % 3 == 2)
             {
                 if (isOdd)
-                    answer += DiskMoverIterative(tower[0], tower[1]);
+                    moveText += DiskMover(tower[0], tower[1]);
                 else 
-                    answer += DiskMoverIterative(tower[0], tower[2]);                
+                    moveText += DiskMover(tower[0], tower[2]);                
 
             }
             else if(i % 3 == 0)
             {
                 if(isOdd)
-                    answer += DiskMoverIterative(tower[1], tower[2]);
+                    moveText += DiskMover(tower[1], tower[2]);
                 else 
-                    answer += DiskMoverIterative(tower[1], tower[2]);
+                    moveText += DiskMover(tower[1], tower[2]);
             }
-
+  
+            answer +=  moveText;
+            moveText =  $"Move Number {i}: " + moveText;
+            RenderFrame(numDisk, moveText);
             
         }
-        GenerateWholeGame(numDisk);
         return answer;
     }
-    static string DiskMoverIterative(int towerA, int towerB)
+    static void HanoiSolverRecursive(int n,int fromRod, int toRod, int auxRod, int numDisk)
+    {
+ 
+        if(n == 0)
+        {
+            
+            return;
+        }
+        HanoiSolverRecursive(n-1,fromRod, auxRod, toRod, numDisk );
+        string moveText = DiskMover(fromRod, toRod);
+        RenderFrame(numDisk, moveText);
+        HanoiSolverRecursive(n-1,auxRod, toRod, fromRod, numDisk);
+    }
+    static string DiskMover(int towerA, int towerB)
     {
         string move = " ";
 
         if( stacks[towerB].Count == 0 || stacks[towerA].Count > 0 && stacks[towerA].Peek() < stacks[towerB].Peek())
         {
             move = $"Disk {stacks[towerA].Peek()} moved from peg number: {towerA} to peg number: {towerB} \n";
-            Console.WriteLine($"Disk {stacks[towerA].Peek()} moved from peg number: {towerA} to peg number: {towerB} \n");
+            //  Console.WriteLine($"Disk {stacks[towerA].Peek()} moved from peg number: {towerA} to peg number: {towerB} \n");
             stacks[towerB].Push(stacks[towerA].Pop());
         }
         else if(stacks[towerA].Count == 0 || stacks[towerB].Count > 0 && stacks[towerB].Peek() < stacks[towerA].Peek())
         {
             move = $"Disk {stacks[towerB].Peek()} moved from peg number: {towerB} to peg number: {towerA} \n";
-            Console.WriteLine( $"Disk {stacks[towerB].Peek()} moved from peg number: {towerB} to peg number: {towerA} \n");
+            //  Console.WriteLine( $"Disk {stacks[towerB].Peek()} moved from peg number: {towerB} to peg number: {towerA} \n");
             stacks[towerA].Push(stacks[towerB].Pop());
         }
         else return "error";
@@ -156,34 +191,45 @@ class Program
             }
         }
     }
-    static void GenerateTree(int numDisk, int i, ref int x, int LengthX, int[] arrayX)
+    static void RenderFrame(int numDisk, string? moveText = null, int delayMs = 200)
     {
-        int totalLength = numDisk * 2 +3;
-        // Console.Write(totalLength);
+        lock (consoleLock)
+        {
+            int boardTop = 0;
+            int boardHeight = numDisk;
+            int logTop = moveLogStartRow;
 
-        if(numDisk - LengthX <= i && LengthX != 0)
-        {
-            for(int j = 0; j < (totalLength - (arrayX[x] * 2 +1))/2; j++)
+            // Redraw board
+            Console.SetCursorPosition(0, boardTop);
+            GenerateWholeGame(numDisk);
+
+            // Write move text into a fixed log window
+            if (!string.IsNullOrWhiteSpace(moveText))
             {
-                Console.Write(" ");
+                int row = logTop + currentLogLine;
+
+                // If log window is full, clear it and start again at the top
+                if (currentLogLine >= moveLogHeight)
+                {
+                    for (int i = 0; i < moveLogHeight; i++)
+                    {
+                        Console.SetCursorPosition(0, logTop + i);
+                        Console.Write(new string(' ', Console.BufferWidth -     1));
+                    }
+
+                    currentLogLine = 0;
+                    row = logTop;
+                }
+
+                Console.SetCursorPosition(0, row);
+                Console.Write(new string(' ', Console.BufferWidth - 1));
+                Console.SetCursorPosition(0, row);
+                Console.Write(moveText.TrimEnd());
+
+                currentLogLine++;
             }
-            for(int j = 0; j < arrayX[x] * 2 +1; j++)
-            {
-                Console.Write("*");
-            }
-            for(int j = (totalLength - (arrayX[x] * 2 +1))/2 + (arrayX[x]*2 +1); j < totalLength ; j++)
-            {
-                Console.Write($" ");
-            }
-            x++;
-        }
-        else
-        {
-            for(int j = 0; j < totalLength; j++)
-            {
-                Console.Write(" ");
-            }
+
+            Thread.Sleep(delayMs);
         }
     }
-
 }
